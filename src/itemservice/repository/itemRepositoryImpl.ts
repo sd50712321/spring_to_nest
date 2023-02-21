@@ -1,8 +1,11 @@
 import { Item } from 'src/itemservice/domain/item';
 import { Repository } from 'typeorm';
-import { ItemRepository } from '../itemRepository';
+import { ItemRepository } from './itemRepository';
 
-export class template extends Repository<Item> implements ItemRepository {
+export class ItemRepositoryImpl
+  extends Repository<Item>
+  implements ItemRepository
+{
   private store: Map<number, Item> = new Map();
 
   private sequenece = 0;
