@@ -1,0 +1,32 @@
+name: Code Review with ChatGPT
+
+on:
+  push:
+    branches:
+      - main # 워크플로우가 실행되는 브랜치를 지정하세요.
+
+jobs:
+  code_review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Code Review with ChatGPT
+        run: |
+          # 필요한 패키지 설치
+          npm install axios
+
+          # 코드 리뷰 스크립트 실행
+          node code_review.js
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
