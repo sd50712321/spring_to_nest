@@ -19,7 +19,7 @@ jobs:
           node-version: 16
 
       - name: Install dependencies
-        run: npm ci
+        run: yarn install
 
       - name: Code Review with ChatGPT
         id: code_review
