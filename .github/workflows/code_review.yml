@@ -22,6 +22,22 @@ jobs:
         run: npm ci
 
       - name: Code Review with ChatGPT
-        run: node code_review.js
+        id: code_review
+        run: echo "::set-output name=review::$(node code_review.js)"
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Add Code Review Comment
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const review = `Code Review 결과:\n${process.env.REVIEW}\n`;
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: review
+            });
+        env:
+          REVIEW: ${{ steps.code_review.outputs.review }}
