@@ -26,9 +26,10 @@ async function requestCodeReview(code) {
 }
 
 async function main() {
-  const code = fs.readFileSync('code_to_review.js', 'utf-8');
+  const codeFilePath = process.argv[2]; // 파일 경로를 인수로 받습니다.
+  const code = fs.readFileSync(codeFilePath, 'utf-8');
   const review = await requestCodeReview(code);
-  console.log(`Code Review 결과:\n${review}`);
+  console.log(review);
 }
 
 main();
