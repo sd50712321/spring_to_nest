@@ -23,7 +23,7 @@ jobs:
 
       - name: Code Review with ChatGPT
         id: code_review
-        run: echo "::set-output name=review::$(node code_review.js)"
+        run: echo "::set-output name=review::$(node code_review.js src/main.js)"
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
