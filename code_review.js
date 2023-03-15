@@ -2,7 +2,7 @@ const axios = require('axios');
 const fs = require('fs');
 
 async function requestCodeReview(code) {
-  const apiKey = 'your_openai_api_key';
+  const apiKey = process.env.OPENAI_API_KEY;
   const prompt = `Please review the following JavaScript code:\n\n${code}\n`;
 
   const response = await axios.post(
