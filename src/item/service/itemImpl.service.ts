@@ -6,8 +6,10 @@ import { ItemService } from './item.service';
 
 @Injectable()
 export class ItemServiceImpl implements ItemService {
-  constructor(@Inject('REDIS') private readonly redis: Redis) {}
-  private itemRepository: ItemRepositoryImpl;
+  constructor(
+    @Inject('REDIS') private readonly redis: Redis,
+    private itemRepository: ItemRepositoryImpl,
+  ) {}
 
   regist(item: Item): Item {
     const save = this.itemRepository.save2(item);
