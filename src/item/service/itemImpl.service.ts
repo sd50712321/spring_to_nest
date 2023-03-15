@@ -16,6 +16,11 @@ export class ItemServiceImpl implements ItemService {
     return save;
   }
 
+  testFunc() {
+    const a = 1;
+    return a;
+  }
+
   async set(key: string, value: string): Promise<void> {
     await this.redis.set(key, value);
   }
