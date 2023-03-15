@@ -1,4 +1,4 @@
-import { Item } from 'src/itemservice/domain/item';
+import { Item } from 'src/item/domain/item';
 import { Repository } from 'typeorm';
 import { ItemRepository } from './itemRepository';
 
