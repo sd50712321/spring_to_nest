@@ -1,5 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
+const { promisify } = require('util');
+const readFile = promisify(fs.readFile);
 
 async function requestCodeReview(code) {
   const apiKey = process.env.OPENAI_API_KEY;
@@ -51,7 +53,7 @@ async function main() {
     }
   }
 
-  console.log(JSON.stringify(reviews));
+  console.log(Buffer.from(JSON.stringify(reviews)).toString('base64'));
 }
 
 main();
