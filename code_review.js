@@ -3,7 +3,7 @@ const fs = require('fs');
 
 async function requestCodeReview(code) {
   const apiKey = process.env.OPENAI_API_KEY;
-  const prompt = `Please review the following JavaScript code:\n\n${code}\n`;
+  const prompt = `Please review the following TypeScript code:\n\n${code}\n`;
 
   const response = await axios.post(
     'https://api.openai.com/v1/engines/davinci-codex/completions',
