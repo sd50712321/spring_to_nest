@@ -3,7 +3,7 @@ name: Code Review with ChatGPT
 on:
   pull_request:
     branches:
-      - main # 워크플로우가 실행되는 브랜치를 지정하세요.
+      - main
 
 jobs:
   code_review:
@@ -19,11 +19,16 @@ jobs:
           node-version: 16
 
       - name: Install dependencies
-        run: yarn install
+        run: yarn install --frozen-lockfile
+
+      - name: Get changed files
+        id: changed_files
+        run: |
+          echo "::set-output name=files::$(git diff --name-only --diff-filter=d ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }})"
 
       - name: Code Review with ChatGPT
         id: code_review
-        run: echo "::set-output name=review::$(node code_review.js src/main.js)"
+        run: echo "::set-output name=reviews::$(node code_review.js ${{ steps.changed_files.outputs.files }})"
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
@@ -32,12 +37,14 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const review = `Code Review 결과:\n${process.env.REVIEW}\n`;
+            const reviews = JSON.parse(process.env.REVIEWS);
+            const reviewText = Object.entries(reviews).map(([file, review]) => `File: ${file}\n\n${review}`).join('\n\n');
+            const reviewComment = `Code Review 결과:\n\n${reviewText}\n`;
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: review
+              body: reviewComment
             });
         env:
-          REVIEW: ${{ steps.code_review.outputs.review }}
+          REVIEWS: ${{ steps.code_review.outputs.reviews }}
