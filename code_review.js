@@ -43,11 +43,13 @@ async function main() {
     reviews[path.basename(file)] = review;
   }
 
-  console.log(JSON.stringify(reviews));
+  return JSON.stringify(reviews);
 }
 
-main().catch((error) => {
-  // console.error(error);
-  console.log('error', error.response);
-  process.exit(1);
-});
+main()
+  .then(console.log)
+  .catch((error) => {
+    // console.error(error);
+    console.log('error', error.response);
+    process.exit(1);
+  });
