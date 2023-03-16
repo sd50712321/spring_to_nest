@@ -12,7 +12,6 @@ const openai = new OpenAIApi(configuration);
 
 async function main() {
   const files = process.argv.slice(2);
-  console.log('files', files);
   const reviews = {};
 
   for (const file of files) {
@@ -40,9 +39,7 @@ async function main() {
     );
 
     const review = completions.data.choices[0].message.content;
-    console.log('review => ', review);
     reviews[path.basename(file)] = review;
-    console.log('reviews', reviews);
   }
 
   return JSON.stringify(reviews);
