@@ -47,7 +47,7 @@ async function main() {
     }
   }
 
-  process.stdout.write(JSON.stringify(reviews));
+  console.log(JSON.stringify(reviews));
 }
 
 main();

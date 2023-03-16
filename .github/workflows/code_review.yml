@@ -30,9 +30,7 @@ jobs:
 
       - name: Code Review with ChatGPT
         id: code_review
-        run: |
-          output=$(node code_review.js)
-          echo "REVIEW_JSON=$output" >> $GITHUB_ENV
+        run: echo "::set-output name=reviews::$(node code_review.js ${{ steps.changed_files.outputs.files }})"
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
