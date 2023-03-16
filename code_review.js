@@ -19,6 +19,7 @@ async function requestCodeReview(code) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${apiKey}`,
       },
+      timeout: 60000, // 60초로 설정합니다.
     },
   );
 
