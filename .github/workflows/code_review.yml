@@ -38,7 +38,10 @@ jobs:
 
       - name: Code Review with ChatGPT
         id: code_review
-        run: echo "::set-output name=reviews::$(node code_review.js ${{ steps.changed_files.outputs.files }})"
+        run: |
+          echo "::set-output name=reviews::$(node code_review.js ${{ steps.changed_files.outputs.files }})"
+          echo "리뷰 결과: "
+          echo ${{ steps.code_review.outputs.reviews }}
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
@@ -48,6 +51,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const reviews = JSON.parse(process.env.REVIEWS);
+            console.log("파싱된 리뷰: ", reviews);
             const reviewText = Object.entries(reviews).map(([file, review]) => `File: ${file}\n\n${review}`).join('\n\n');
             const reviewComment = `Code Review 결과:\n\n${reviewText}\n`;
             await github.rest.issues.createComment({
