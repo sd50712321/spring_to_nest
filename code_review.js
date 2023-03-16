@@ -1,59 +1,36 @@
-const axios = require('axios');
 const fs = require('fs');
+const path = require('path');
 const { promisify } = require('util');
+const openai = require('openai');
+
 const readFile = promisify(fs.readFile);
 
-async function requestCodeReview(code) {
-  const apiKey = process.env.OPENAI_API_KEY;
-  const prompt = `Please review the following TypeScript code:\n\n${code}\n`;
-
-  console.log('리뷰 요청 프롬프트: ');
-  console.log(prompt);
-
-  const response = await axios.post(
-    'https://api.openai.com/v1/engines/davinci-codex/completions',
-    {
-      prompt: prompt,
-      max_tokens: 150,
-      n: 1,
-      stop: null,
-      temperature: 0.5,
-    },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      timeout: 60000, // 60초로 설정합니다.
-    },
-  );
-
-  return response.data.choices[0].text.trim();
-}
+openai.apiKey = process.env.OPENAI_API_KEY;
 
 async function main() {
-  const changedFiles = process.argv.slice(2);
+  const files = process.argv.slice(2);
   const reviews = {};
 
-  for (const file of changedFiles) {
-    if (!fs.existsSync(file)) {
-      console.log(`파일 ${file} 이 존재하지 않습니다.`);
-      continue;
-    }
+  for (const file of files) {
+    const code = await readFile(file, 'utf-8');
+    const prompt = `Please review the following TypeScript code:\n\n${code}\n`;
+    const completions = await openai.Completion.create({
+      engine: 'text-davinci-002',
+      prompt,
+      max_tokens: 150,
+      n: 1,
+      stop: ['\n'],
+      temperature: 0.7,
+    });
 
-    const code = fs.readFileSync(file, 'utf-8');
-    try {
-      const review = await requestCodeReview(code);
-      reviews[file] = review;
-    } catch (error) {
-      console.error(
-        `파일 ${file}에 대한 코드 리뷰 중 오류가 발생했습니다:`,
-        error,
-      );
-    }
+    const review = completions.choices[0].text.trim();
+    reviews[path.basename(file)] = review;
   }
 
   console.log(Buffer.from(JSON.stringify(reviews)).toString('base64'));
 }
 
-main();
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});
