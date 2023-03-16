@@ -35,12 +35,11 @@ jobs:
 
       - name: Get changed files
         id: changed_files
-        uses: tj-actions/changed-files@v35.7.1
-        with:
-          separator: ' '
-          files: |
-            **/*.ts
-            **/*.js
+        run: |
+          changed_files=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} -- '*.js' '*.ts')
+          changed_files="${changed_files//$'\n'/ }"
+          echo "Changed Files: $changed_files"
+          echo "changed_files=$changed_files" >> $GITHUB_ENV
 
       - name: Code Review with ChatGPT
         id: code_review
