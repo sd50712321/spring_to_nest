@@ -54,12 +54,12 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
-      - name: Debugging REVIEWS
-        run: |
-          echo "REVIEWS: ${{ env.REVIEWS }}"
-          echo "Decoded REVIEWS: $(echo ${{ env.REVIEWS }} | base64 --decode)"
-        env:
-          REVIEWS: e30K
+      # - name: Debugging REVIEWS
+      #   run: |
+      #     echo "REVIEWS: ${{ env.REVIEWS }}"
+      #     echo "Decoded REVIEWS: $(echo ${{ env.REVIEWS }} | base64 --decode)"
+      #   env:
+      #     REVIEWS: e30K
 
       - name: Add Code Review Comment
         uses: actions/github-script@v5
@@ -77,4 +77,4 @@ jobs:
               body: reviewComment
             });
         env:
-          REVIEWS: e30K
+          REVIEWS: ${{ steps.code_review.outputs.reviews }}
