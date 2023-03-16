@@ -33,8 +33,8 @@ async function main() {
         temperature: 0.7,
       },
       {
-        timeout: 60000,
-        maxBodyLength: 4096,
+        timeout: 120000,
+        maxBodyLength: 8192,
       },
     );
 
