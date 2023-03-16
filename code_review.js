@@ -5,7 +5,7 @@ const openai = require('openai');
 
 const readFile = promisify(fs.readFile);
 
-openai.apiKey = process.env.OPENAI_API_KEY;
+const openaiClient = new openai.OpenAi(process.env.OPENAI_API_KEY);
 
 async function main() {
   const files = process.argv.slice(2);
@@ -14,7 +14,7 @@ async function main() {
   for (const file of files) {
     const code = await readFile(file, 'utf-8');
     const prompt = `Please review the following TypeScript code:\n\n${code}\n`;
-    const completions = await openai.Completion.create({
+    const completions = await openaiClient.Completion.create({
       engine: 'text-davinci-002',
       prompt,
       max_tokens: 150,
