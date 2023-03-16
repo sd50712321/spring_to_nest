@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Redis } from 'ioredis';
 import { Item } from '../domain/item';
+import { ItemRepository } from '../repository/itemRepository';
 import { ItemRepositoryImpl } from '../repository/itemRepositoryImpl';
 import { ItemService } from './item.service';
 
@@ -8,7 +9,7 @@ import { ItemService } from './item.service';
 export class ItemServiceImpl implements ItemService {
   constructor(
     @Inject('REDIS') private readonly redis: Redis,
-    private itemRepository: ItemRepositoryImpl,
+    private itemRepository: ItemRepository,
   ) {}
 
   regist(item: Item): Item {
@@ -16,7 +17,7 @@ export class ItemServiceImpl implements ItemService {
     return save;
   }
 
-  한글로된함수(abcd) {
+  hageulToEnglish(abcd) {
     const abc = 'url';
     const 이거이상 = 'test';
     const 이거이상2 = 'test';
