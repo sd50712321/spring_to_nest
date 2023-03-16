@@ -43,7 +43,7 @@ jobs:
       - name: Code Review with ChatGPT
         id: code_review
         run: |
-          echo "::set-output name=reviews::$(node code_review.js ${{ steps.changed_files.outputs.files }})"
+          echo "::set-output name=reviews::$(echo $(node code_review.js ${{ steps.changed_files.outputs.files }}) | base64)"
           echo "리뷰 결과: "
           echo ${{ steps.code_review.outputs.reviews }}
         env:
