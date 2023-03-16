@@ -19,6 +19,7 @@ export class ItemServiceImpl implements ItemService {
   한글로된함수(abcd) {
     const abc = 'url';
     const 이거이상 = 'test';
+    const 이거이상2 = 'test';
     return abcd;
   }
 
