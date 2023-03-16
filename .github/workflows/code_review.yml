@@ -51,4 +51,4 @@ jobs:
               body: reviewComment
             });
         env:
-          REVIEW_JSON: ${{ toJson(env.REVIEW_JSON) }}
+          REVIEW_JSON: ${{ env.REVIEW_JSON }}
