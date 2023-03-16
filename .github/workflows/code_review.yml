@@ -40,13 +40,6 @@ jobs:
           echo "Head commit: ${{ github.event.pull_request.head.sha }}"
           echo "::set-output name=files::$(git diff --name-only --diff-filter=d ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }})"
 
-      - name: Debugging REVIEWS
-        run: |
-          echo "REVIEWS: ${{ env.REVIEWS }}"
-          echo "Decoded REVIEWS: $(echo ${{ env.REVIEWS }} | base64 --decode)"
-        env:
-          REVIEWS: ZXlKamIyUmxYM0psZG1sbGR5NTViV3dpT2lJaWZRPT0K
-
       - name: Code Review with ChatGPT
         id: code_review
         run: |
@@ -66,7 +59,7 @@ jobs:
           echo "REVIEWS: ${{ env.REVIEWS }}"
           echo "Decoded REVIEWS: $(echo ${{ env.REVIEWS }} | base64 --decode)"
         env:
-          REVIEWS: ZXlKamIyUmxYM0psZG1sbGR5NTViV3dpT2lJaWZRPT0K
+          REVIEWS: e30K
 
       - name: Add Code Review Comment
         uses: actions/github-script@v5
@@ -84,4 +77,4 @@ jobs:
               body: reviewComment
             });
         env:
-          REVIEWS: ${{ steps.code_review.outputs.reviews }}
+          REVIEWS: e30K
