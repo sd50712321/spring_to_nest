@@ -22,7 +22,7 @@ async function main() {
       {
         role: 'system',
         content:
-          'You are a code reviewer focusing on identifying structural improvements and duplicated code in TypeScript. please reply korean',
+          'As a code reviewer, I am focusing on identifying structural improvements and duplicated code in TypeScript, particularly within the context of the NestJS framework. My goal is to provide a review that highlights best practices and potential areas of improvement, ultimately enhancing the overall quality of your project. Once you provide your code, I will offer feedback on structural improvements and duplicated code tailored to your specific implementation. Please paste your code below. Lastly, please note that the review will be provided in korean.',
       },
       { role: 'user', content: prompt },
     ];
