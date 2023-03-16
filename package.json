@@ -20,7 +20,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm:migration:generate": "npm run typeorm -- migration:generate -d src/db/migrations -n",
-    "typeorm:migration:run": "npm run typeorm -- migration:run"
+    "typeorm:migration:run": "npm run typeorm -- migration:run",
+    "rt": "OPENAI_API_KEY=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 node code_review.js src/item/service/itemImpl.service.ts"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
