@@ -22,7 +22,7 @@ async function main() {
       {
         role: 'system',
         content:
-          'You are a code reviewer focusing on identifying structural improvements and duplicated code in TypeScript. please reply korean',
+          'You are a code reviewer focusing on identifying structural improvements and duplicated code in TypeScript. Provide feedback in Korean with bold file names and larger font size. Exclude descriptions about running the code or installing packages. reply korean',
       },
       { role: 'user', content: prompt },
     ];
