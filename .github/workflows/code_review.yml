@@ -68,7 +68,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const reviews = JSON.parse(process.env.REVIEWS);
-            const reviewText = Object.entries(reviews).map(([file, review]) => `File: ${file}\n\n${review}`).join('\n\n');
+            const reviewText = Object.entries(reviews).map(([file, review]) => `## File: ${file}\n\n${review}`).join('\n\n');
             const reviewComment = `Code Review 결과:\n\n${reviewText}\n`;
             await github.rest.issues.createComment({
               issue_number: context.issue.number,

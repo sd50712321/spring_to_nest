@@ -63,6 +63,7 @@ async function main() {
 main()
   .then(console.log)
   .catch((error) => {
-    console.log('error', error);
+    // console.error(error);
+    console.log('error', error.response);
     process.exit(1);
   });
