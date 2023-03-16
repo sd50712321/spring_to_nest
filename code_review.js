@@ -5,6 +5,9 @@ async function requestCodeReview(code) {
   const apiKey = process.env.OPENAI_API_KEY;
   const prompt = `Please review the following TypeScript code:\n\n${code}\n`;
 
+  console.log('리뷰 요청 프롬프트: ');
+  console.log(prompt);
+
   const response = await axios.post(
     'https://api.openai.com/v1/engines/davinci-codex/completions',
     {
