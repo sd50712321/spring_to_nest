@@ -35,6 +35,8 @@ jobs:
         id: changed_files
         run: |
           echo "::set-output name=files::$(git diff --name-only --diff-filter=d ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }})"
+          echo "변경된 파일: "
+          echo ${{ steps.changed_files.outputs.files }}
 
       - name: Code Review with ChatGPT
         id: code_review
