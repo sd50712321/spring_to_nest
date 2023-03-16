@@ -31,7 +31,8 @@ jobs:
       - name: Code Review with ChatGPT
         id: code_review
         run: |
-          echo "REVIEW=$(node code_review.js)" >> $GITHUB_ENV
+          output=$(node code_review.js)
+          echo "REVIEW_JSON=$output" >> $GITHUB_ENV
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
@@ -50,4 +51,4 @@ jobs:
               body: reviewComment
             });
         env:
-          REVIEW_JSON: ${{ env.REVIEW_JSON }}
+          REVIEW_JSON: ${{ toJson(env.REVIEW_JSON) }}
