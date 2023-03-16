@@ -25,13 +25,13 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v3
         with:
-          path: .yarn/cache
+          path: node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile --prefer-offline
 
       - name: Get changed files
         id: changed_files
