@@ -49,4 +49,4 @@ jobs:
               body: reviewComment
             });
         env:
-          REVIEW_JSON: ${{ env.REVIEW_JSON }}
+          REVIEWS: ${{ steps.code_review.outputs.reviews }}
