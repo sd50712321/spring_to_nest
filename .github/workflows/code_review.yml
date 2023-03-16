@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -34,9 +36,9 @@ jobs:
       - name: Get changed files
         id: changed_files
         run: |
+          echo "Base commit: ${{ github.event.pull_request.base.sha }}"
+          echo "Head commit: ${{ github.event.pull_request.head.sha }}"
           echo "::set-output name=files::$(git diff --name-only --diff-filter=d ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }})"
-          echo "변경된 파일: "
-          echo ${{ steps.changed_files.outputs.files }}
 
       - name: Code Review with ChatGPT
         id: code_review
