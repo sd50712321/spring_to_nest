@@ -44,17 +44,26 @@ jobs:
       - name: Code Review with ChatGPT
         id: code_review
         run: |
-          file_list="${{ env.changed_files }}"
-          IFS=' ' read -ra files_array <<< "$file_list" # 공백을 기준으로 문자열을 배열로 변환
-          reviews=$(node code_review.js "${files_array[@]}") # 배열을 인수로 전달
-          if [ -z "$reviews" ]; then
-            echo "No reviews generated"
-            echo "::set-output name=reviews::{}" # empty JSON object
-          else
-            echo "리뷰 결과:"
-            echo "$reviews"
-            echo "::set-output name=reviews::$reviews"
-          fi
+          for i in {1..5}; do
+            file_list="${{ env.changed_files }}"
+            IFS=' ' read -ra files_array <<< "$file_list" # 공백을 기준으로 문자열을 배열로 변환
+            reviews=$(node code_review.js "${files_array[@]}") # 배열을 인수로 전달
+            exit_code=$?
+            if [ $exit_code -eq 0 ]; then
+              if [ -z "$reviews" ]; then
+                echo "No reviews generated"
+                echo "::set-output name=reviews::{}" # empty JSON object
+              else
+                echo "리뷰 결과:"
+                echo "$reviews"
+                echo "::set-output name=reviews::$reviews"
+              fi
+              break
+            else
+              echo "Attempt $i failed. Retrying..."
+              sleep 1
+            fi
+          done
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
