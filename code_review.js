@@ -35,7 +35,7 @@ async function main() {
     reviews[path.basename(file)] = review;
   }
 
-  console.log(Buffer.from(JSON.stringify(reviews)).toString('base64'));
+  console.log(JSON.stringify(reviews));
 }
 
 main().catch((error) => {
