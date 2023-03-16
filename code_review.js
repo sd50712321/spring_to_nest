@@ -26,10 +26,28 @@ async function requestCodeReview(code) {
 }
 
 async function main() {
-  const codeFilePath = process.argv[2]; // 파일 경로를 인수로 받습니다.
-  const code = fs.readFileSync(codeFilePath, 'utf-8');
-  const review = await requestCodeReview(code);
-  console.log(review);
+  const changedFiles = process.argv.slice(2);
+  const reviews = {};
+
+  for (const file of changedFiles) {
+    if (!fs.existsSync(file)) {
+      console.log(`파일 ${file} 이 존재하지 않습니다.`);
+      continue;
+    }
+
+    const code = fs.readFileSync(file, 'utf-8');
+    try {
+      const review = await requestCodeReview(code);
+      reviews[file] = review;
+    } catch (error) {
+      console.error(
+        `파일 ${file}에 대한 코드 리뷰 중 오류가 발생했습니다:`,
+        error,
+      );
+    }
+  }
+
+  console.log(JSON.stringify(reviews));
 }
 
 main();
