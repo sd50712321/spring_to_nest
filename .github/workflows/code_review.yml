@@ -35,7 +35,7 @@ jobs:
 
       - name: Get changed files
         id: changed_files
-        uses: tj-actions/changed-files@v12.4
+        uses: tj-actions/changed-files@v12.0
         with:
           separator: ' '
           files: |
