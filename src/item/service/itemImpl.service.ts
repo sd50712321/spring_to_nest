@@ -16,9 +16,10 @@ export class ItemServiceImpl implements ItemService {
     return save;
   }
 
-  testFunc() {
-    const a = 1;
-    return a;
+  한글로된함수(abcd) {
+    const abc = 'url';
+    const 이거이상 = 'test';
+    return abcd;
   }
 
   async set(key: string, value: string): Promise<void> {
