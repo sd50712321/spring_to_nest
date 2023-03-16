@@ -48,7 +48,8 @@ jobs:
             echo "No reviews generated"
             echo "::set-output name=reviews::{}" # empty JSON object
           else
-            echo "리뷰 결과: $reviews"
+            echo "리뷰 결과:"
+            echo "$reviews"
             echo "::set-output name=reviews::$reviews"
           fi
         env:
