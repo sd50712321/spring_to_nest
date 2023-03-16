@@ -43,9 +43,14 @@ jobs:
       - name: Code Review with ChatGPT
         id: code_review
         run: |
-          echo "::set-output name=reviews::$(echo $(node code_review.js ${{ steps.changed_files.outputs.files }}) | base64)"
-          echo "리뷰 결과: "
-          echo ${{ steps.code_review.outputs.reviews }}
+          reviews=$(node code_review.js ${{ steps.changed_files.outputs.files }})
+          if [ -z "$reviews" ]; then
+            echo "No reviews generated"
+            echo "::set-output name=reviews::e30K" # empty JSON object, base64 encoded
+          else
+            echo "리뷰 결과: $reviews"
+            echo "::set-output name=reviews::$(echo $reviews | base64)"
+          fi
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
